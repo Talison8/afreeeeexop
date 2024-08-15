@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos os Desenhos animados</title>
+    <link rel="icon" href="img/tv-logo.png" type="image/png">
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/tv-logo.png" alt="Logo do Anime" />
+            <a href="index.html"></a><span class="logo-text">Dfree</span></a> <!-- Nome ao lado da logo -->
+        </div>
+        <nav class="search-bar">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="animes unicos.html">Animes</a></li>
+                <li><a href="Desenhos.html">Desenhos</a></li>
+                <li><a href="TV.html">TV</a></li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar animes...">
+            <button id="searchButton">Buscar</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="video-info">Todos os Desenhos de Disponíveis</h1>
+
+        <div id="anime-list">
+            <!-- Animes serão inseridos aqui via JavaScript -->
+        </div>
+
+        <div class="pagination">
+            <a href="#" id="prevPage" class="page-link">&laquo; Anterior</a>
+            <div class="pagination-controls" id="pageNumbers">
+                <!-- Números das páginas serão inseridos aqui via JavaScript -->
+            </div>
+            <a href="#" id="nextPage" class="page-link">Próximo &raquo;</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+        </div>
+        <p>&copy; 2024 Todos os direitos reservados. <a href="#" style="color: #fff;">Política de Privacidade</a></p>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const itemsPerPage = 15;
+            let currentPage = 1;
+            let totalPages = 1;
+            let animeData = [];
+            let filteredData = [];
+    
+            function loadAndProcessJSON() {
+                fetch('json/Desenhos.json') // Ajuste o caminho conforme necessário
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        animeData = data;
+                        filteredData = animeData; // Inicialmente, todos os dados são exibidos
+                        // Obter animes únicos com a quantidade total de episódios
+                        const uniqueAnimes = {};
+                        animeData.forEach(anime => {
+                            const key = anime['Subcategoria'];
+                            if (!uniqueAnimes[key]) {
+                                uniqueAnimes[key] = {
+                                    ...anime,
+                                    count: animeData.filter(item => item['Subcategoria'] === key).length
+                                };
+                            }
+                        });
+    
+                        // Converter o objeto em uma lista
+                        animeData = Object.values(uniqueAnimes);
+                        filteredData = animeData;
+    
+                        totalPages = Math.ceil(filteredData.length / itemsPerPage);
+                        renderPage(currentPage);
+                    })
+                    .catch(error => console.error('Erro ao carregar o JSON:', error));
+            }
+    
+            function renderPage(page, dataToRender = filteredData) {
+                currentPage = page;
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = dataToRender.slice(start, end);
+    
+                const animeList = document.getElementById('anime-list');
+                animeList.innerHTML = '';
+    
+                paginatedItems.forEach(anime => {
+                    const animeDiv = document.createElement('div');
+                    animeDiv.classList.add('anime-item');
+                    const logoUrl = anime['Logo do Canal'] || '';
+    
+                    animeDiv.innerHTML = `
+                        <a href="Reprodutor.html?subcategoria=${encodeURIComponent(anime['Subcategoria'])}">
+                            <img src="${logoUrl}" alt="${anime['Subcategoria']}">
+                            <h3>${anime['Subcategoria']}</h3>
+                            <p class="episode-count">Episódios: ${anime.count}</p>
+                        </a>
+                    `;
+    
+                    animeList.appendChild(animeDiv);
+                });
+    
+                updatePagination();
+            }
+    
+            function updatePagination() {
+                const pageNumbersDiv = document.getElementById('pageNumbers');
+                pageNumbersDiv.innerHTML = '';
+    
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.href = '#';
+                    pageLink.textContent = i;
+                    pageLink.classList.add('page-link');
+                    if (i === currentPage) {
+                        pageLink.classList.add('active');
+                    }
+                    pageLink.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        currentPage = i;
+                        renderPage(currentPage);
+                    });
+                    pageNumbersDiv.appendChild(pageLink);
+                }
+    
+                document.getElementById('prevPage').classList.toggle('disabled', currentPage === 1);
+                document.getElementById('nextPage').classList.toggle('disabled', currentPage === totalPages);
+            }
+    
+            function handlePagination(event) {
+                event.preventDefault();
+                if (event.target.id === 'prevPage' && currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                } else if (event.target.id === 'nextPage' && currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            }
+    
+            function filterAnimes(query) {
+                filteredData = animeData.filter(anime =>
+                    anime['Subcategoria'].toLowerCase().includes(query.toLowerCase())
+                );
+                totalPages = Math.ceil(filteredData.length / itemsPerPage);
+                renderPage(1); // Sempre renderize a primeira página após filtrar
+            }
+    
+            document.getElementById('searchButton').addEventListener('click', () => {
+                const query = document.getElementById('searchInput').value;
+                filterAnimes(query);
+            });
+    
+            document.getElementById('searchInput').addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    const query = event.target.value;
+                    filterAnimes(query);
+                }
+            });
+    
+            document.getElementById('prevPage').addEventListener('click', handlePagination);
+            document.getElementById('nextPage').addEventListener('click', handlePagination);
+    
+            loadAndProcessJSON();
+        });
+    </script>
+    
+</body>
+</html>

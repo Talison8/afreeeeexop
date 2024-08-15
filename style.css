@@ -1,0 +1,25 @@
+/* style.css */
+
+.menu-button {
+    display: none;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Estilos para telas menores que 768px */
+    .menu-button {
+        display: block;
+    }
+
+    .search-bar, .search-container {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+        /* Estilos para o menu móvel */
+    }
+}

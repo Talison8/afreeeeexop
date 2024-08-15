@@ -5,19 +5,23 @@ const video = document.getElementById('video');
 const hls = new Hls();
 const streams = [];
 // const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json'];
+require('dotenv').config(); // Carrega as variáveis do .env no ambiente de desenvolvimento
+
+// Para produção, Netlify injeta as variáveis de ambiente automaticamente
+const token = process.env.GITHUB_API_KEY;
+
 const jsonFiles = [
-    'https://api.github.com/repos/Talison8/lerdo/blob/main/Animes%20dublados.json,
-    'https://api.github.com/repos/Talison8/lerdo/blob/main/json/TV.json',
-    'https://api.github.com/repos/Talison8/lerdo/blob/main/json/Desenhos.json'
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/Animes%20dublados.json',
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/json/TV.json',
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/json/Desenhos.json'
 ];
 
-
-const token = process.env.GITHUB_API_KEY; // Substitua pelo seu token
-
+// Função para carregar e processar cada JSON
 const loadJSONData = (url) => {
     return fetch(url, {
         headers: {
-            'Authorization': `token ${token}`
+            'Authorization': `token ${token}`, // Usa o token para autenticação
+            'Accept': 'application/vnd.github.v3.raw'
         }
     })
     .then(response => {
@@ -25,13 +29,8 @@ const loadJSONData = (url) => {
             throw new Error('Network response was not ok ' + response.statusText);
         }
         return response.json();
-    })
-    .then(data => {
-        const content = atob(data.content); // Decodifica o conteúdo base64
-        return JSON.parse(content);
     });
 };
-
 
 // Carrega todos os arquivos JSON
 Promise.all(jsonFiles.map(file => loadJSONData(file)))

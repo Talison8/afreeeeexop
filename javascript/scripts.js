@@ -4,13 +4,9 @@ const subcategoria = urlParams.get('subcategoria');
 const video = document.getElementById('video');
 const hls = new Hls();
 const streams = [];
-// const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json']; // Lista de arquivos JSON
+const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json'];
 
-const jsonFiles = [
-    'https://github.com/Talison8/lerdo/blob/main/Animes%20dublados.json,
-    'https://github.com/Talison8/lerdo/blob/main/json/TV.json',
-    'https://github.com/Talison8/lerdo/blob/main/Desenhos.json'
-];
+
 
 
 // Função para carregar e processar cada JSON

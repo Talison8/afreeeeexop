@@ -5,24 +5,33 @@ const video = document.getElementById('video');
 const hls = new Hls();
 const streams = [];
 // const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json'];
+require('dotenv').config(); // Carrega as variáveis do .env
+
+const token = process.env.GITHUB_API_KEY;
+console.log(`Token: ${token}`);
 
 const jsonFiles = [
-    `${process.env.GITHUB_API_KEY}/json/Animes%20dublados.json`,
-    `${process.env.GITHUB_API_KEY}/json/TV.json`,
-    `${process.env.GITHUB_API_KEY}/json/Desenhos.json`
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/Animes%20dublados.json',
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/json/TV.json',
+    'https://raw.githubusercontent.com/Talison8/lerdo/main/json/Desenhos.json'
 ];
 
-
-// Função para carregar e processar cada JSON
-const loadJSONData = (file) => {
-    return fetch(file)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        });
+// Função para carregar e processar cada JSON com autenticação
+const loadJSONData = (url) => {
+    return fetch(url, {
+        headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3.raw'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    });
 };
+
 
 // Carrega todos os arquivos JSON
 Promise.all(jsonFiles.map(file => loadJSONData(file)))

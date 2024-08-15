@@ -1,0 +1,369 @@
+
+
+/* Corpo com imagem de fundo e cores escuras */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../img/fundo\ desenho\ tom.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #e0e0e0; /* Texto mais claro para contraste com o fundo escuro */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabeçalho com cores escuras */
+header {
+    background: rgba(0, 0, 0, 0.7); /* Preto com transparência */
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #444;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+header .logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px 15px;
+    white-space: nowrap;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 35px;
+    height: auto;
+    margin-right: 10px; /* Espaçamento entre a logo e o texto */
+}
+
+.logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    position: relative;
+}
+
+header nav ul li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+header nav ul li a:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+header nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+
+/* Ajuste do conteúdo principal */
+main {
+    padding-top: 60px;
+    text-align: center;
+    flex: 1;
+}
+
+.video-info {
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #e0e0e0; /* Texto claro */
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+}
+
+/* Estilo para o container da lista de animes */
+#anime-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Estilo para cada item de anime */
+.anime-item {
+    background-color: #333; /* Cor de fundo escura */
+    border-radius: 15px;
+    overflow: hidden;
+    width: 180px;
+    height: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.anime-item a {
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid transparent; /* Borda inferior invisível por padrão */
+    transition: border-color 0.3s;
+}
+
+.anime-item a:hover {
+    border-bottom: 2px solid #e0e0e0; /* Adiciona uma borda inferior ao passar o mouse */
+    color: #e0e0e0; /* Cor de texto ao passar o mouse, se desejar */
+}
+
+
+
+.anime-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.anime-item img {
+    width: 100%;
+    height: 200px; /* Ajusta a altura automaticamente para manter a proporção */
+    object-fit: cover; /* Faz a imagem cobrir o elemento mantendo a proporção */
+    border-bottom: 2px solid #444;
+}
+
+.anime-item h3 {
+    margin: 2px 0;
+    font-size: 1.1em;
+    color: #e0e0e0;
+    padding: 0 10px;
+    padding-top: 10%; /* Ajuste conforme necessário */
+    white-space: normal; /* Permite quebra de linha */
+    overflow: hidden; /* Oculta o texto que excede o contêiner */
+    text-overflow: ellipsis; /* Adiciona reticências quando o texto é truncado */
+    display: -webkit-box; /* Define o tipo de caixa como flexível */
+    -webkit-box-orient: vertical; /* Define a orientação da caixa para vertical */
+    -webkit-line-clamp: 2; /* Limita o número de linhas visíveis a 2 */
+}
+
+
+.anime-item p {
+    margin: 1px 0;
+    padding: 0 3px;
+    padding-top: -30px;
+}
+
+.episode-count {
+    font-size: 0.9em;
+    color: #aaa;
+    padding: 0 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    padding: 10px 15px;
+    border: 1px solid #555;
+    border-radius: 20px;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.page-link.disabled {
+    color: #777;
+    pointer-events: none;
+}
+
+.page-link.active,
+.page-link:hover {
+    background-color: #444;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Rodapé com cores escuras */
+footer {
+    background: rgba(0, 0, 0, 0.8); /* Preto com mais opacidade */
+    color: #e0e0e0;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid #444;
+    margin-top: auto;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    position: relative;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+    z-index: 0;
+}
+
+footer .social-links {
+    margin: 10px 0;
+    position: relative;
+    z-index: 1;
+}
+
+footer .social-links a {
+    color: #e0e0e0;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1.3rem;
+    transition: color 0.3s;
+}
+
+footer .social-links a:hover {
+    color: #ddd;
+    text-decoration: underline;
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+/* Estilo para a barra de pesquisa */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #444;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.search-container input {
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    outline: none;
+    background: #555;
+    color: #e0e0e0;
+    flex: 1;
+}
+
+.search-container button {
+    background: #333;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-container button:hover {
+    background: #666;
+}
+
+/* Estilo para dispositivos menores */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start; /* Alinha itens à esquerda */
+        padding: 10px;
+    }
+
+    header nav ul {
+        flex-direction: row; /* Exibe itens horizontalmente em telas menores */
+        gap: 10px; /* Espaço entre os itens */
+        overflow-x: auto; /* Permite rolar horizontalmente se necessário */
+        padding: 0; /* Remove padding extra */
+    }
+
+    header nav ul li {
+        display: inline; /* Exibe itens como linha em vez de bloco */
+    }
+
+    header nav ul li a {
+        font-size: 0.9rem;
+        padding: 8px 10px; /* Ajusta o padding para um melhor ajuste */
+        white-space: nowrap; /* Impede quebra de linha */
+    }
+
+    main {
+        padding-top: 70px; /* Ajuste para dispositivos menores */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

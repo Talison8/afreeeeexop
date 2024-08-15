@@ -4,9 +4,13 @@ const subcategoria = urlParams.get('subcategoria');
 const video = document.getElementById('video');
 const hls = new Hls();
 const streams = [];
-const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json'];
+// const jsonFiles = ['json/Animes dublados.json', 'json/TV.json', 'json/Desenhos.json'];
 
-
+const jsonFiles = [
+    `${process.env.GITHUB_API_KEY}/json/Animes%20dublados.json`,
+    `${process.env.GITHUB_API_KEY}/json/TV.json`,
+    `${process.env.GITHUB_API_KEY}/json/Desenhos.json`
+];
 
 
 // Função para carregar e processar cada JSON
